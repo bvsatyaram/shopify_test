@@ -1,0 +1,31 @@
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    ShopifyApp.ready(function(){
+      ShopifyApp.Bar.initialize({
+        title: "Product Group: <%= @product_group.name %>",
+        icon: "<%= asset_path('favicon.ico') %>"
+      });
+    });
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $( "#new_product" ).autocomplete({
+        source: "/product_groups/",
+        minLength: 2,
+        select: function( event, ui ) {
+          console.log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+        }
+      });
+    });
+  </script>
+<% end %>
+
+<h1><%= @product_group.name %></h1>
+<ul>
+  <% @product_group.shopify_products.each do |sp| %>
+    <li><%= ShopifyAPI::Product.find(sp.shopify_product_id).title %></li>
+  <% end %>
+</ul>
+
+<input type="text" name="new_product" id="new_product">
