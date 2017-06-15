@@ -14,7 +14,18 @@
         source: "/product_groups/",
         minLength: 2,
         select: function( event, ui ) {
-          console.log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+          $.post(
+            '/shopify_products',
+            {
+              shopify_product: {
+                shopify_product_id: ui.item.id,
+                product_group_id: <%= @product_group.id %>
+              }
+            },
+            function(res) {
+              console.log(res);
+            }
+          );
         }
       });
     });
