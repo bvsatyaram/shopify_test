@@ -19,11 +19,13 @@
             {
               shopify_product: {
                 shopify_product_id: ui.item.id,
-                product_group_id: <%= @product_group.id %>
+                product_group_id: <%= @product_group.id %>,
+                product_title: ui.item.value
               }
             },
             function(res) {
-              console.log(res);
+              $('#product-group-products').append("<li>" + res.product.name + "</li>");
+              $('input#new_product').val('');
             }
           );
         }
@@ -33,7 +35,7 @@
 <% end %>
 
 <h1><%= @product_group.name %></h1>
-<ul>
+<ul id="product-group-products">
   <% @product_group.shopify_products.each do |sp| %>
     <li><%= ShopifyAPI::Product.find(sp.shopify_product_id).title %></li>
   <% end %>

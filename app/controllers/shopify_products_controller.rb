@@ -3,8 +3,9 @@ class ShopifyProductsController < ApplicationController
 
   def create
     shopify_product = ShopifyProduct.find_or_create_by(shopify_product_params)
+    product_name = params[:shopify_product][:product_title]
 
-    render json: {success: 'ok'}
+    render json: {product: {name: product_name}}
   end
 
 private
